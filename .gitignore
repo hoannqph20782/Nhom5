@@ -1,6 +1,1 @@
-build/classes/*
-build/generated-sources/*
-dist/*
-nbproject/*.properties
-nbproject/private/*
-
+build/classes/*.class
