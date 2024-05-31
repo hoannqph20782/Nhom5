@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 public class DBConnext {
     
     private static final String USERNAME = "sa";
-    private static final String PASSWORD = "17012003";
+    private static final String PASSWORD = "12345678";
     private static final String SERVER_NAME = "";
     private static final String PORT = "1433";
     private static final String DATABASE_NAME = "UNGDUNGBANGIAY_FS";

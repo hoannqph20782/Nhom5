@@ -36,7 +36,7 @@ public class Form_BanHang extends javax.swing.JPanel {
     DefaultTableModel model = new DefaultTableModel();
     HoaDonRepo hdRepo = new HoaDonRepo();
     HoaDon hd = new HoaDon();
-    HoaDonChiTiet hdct=new HoaDonChiTiet();
+    HoaDonChiTiet hdct = new HoaDonChiTiet();
     HoaDonChoRepo hdcRepo = new HoaDonChoRepo();
     public int selectedRowInBanHang = -1;
     Map<String, List<SanPham>> gioHangTheoHoaDon = new HashMap<>();
@@ -265,31 +265,31 @@ public class Form_BanHang extends javax.swing.JPanel {
     }
 
     public void clearFormGioHang() {
-     int rowHD = tb_hoadon2.getSelectedRow();
-    if (rowHD >= 0) {
-        // Lấy mã hóa đơn từ hàng được chọn
-        String maHD = tb_hoadon2.getValueAt(rowHD, 0).toString();
+        int rowHD = tb_hoadon2.getSelectedRow();
+        if (rowHD >= 0) {
+            // Lấy mã hóa đơn từ hàng được chọn
+            String maHD = tb_hoadon2.getValueAt(rowHD, 0).toString();
 
-        // Lấy ID hóa đơn từ mã hóa đơn
-        String idHD = hdcRepo.getIdHoaDonByMa(maHD);
+            // Lấy ID hóa đơn từ mã hóa đơn
+            String idHD = hdcRepo.getIdHoaDonByMa(maHD);
 
-        // Lấy tất cả chi tiết hóa đơn từ repository
-        ArrayList<HoaDonChiTiet> listCTHD = hdcRepo.getAllHoaDonTatCa();
-        
-        // Cập nhật số lượng sản phẩm (nếu cần)
-        for (HoaDonChiTiet hoaDonChiTiet : listCTHD) {
-            String chiTietGIay = hoaDonChiTiet.getIdCTG();
-            int slnew = hoaDonChiTiet.getSoLuong();
-            hdcRepo.capNhatSoLuongChiTietSanPham(chiTietGIay, slnew);
+            // Lấy tất cả chi tiết hóa đơn từ repository
+            ArrayList<HoaDonChiTiet> listCTHD = hdcRepo.getAllHoaDonTatCa();
+
+            // Cập nhật số lượng sản phẩm (nếu cần)
+            for (HoaDonChiTiet hoaDonChiTiet : listCTHD) {
+                String chiTietGIay = hoaDonChiTiet.getIdCTG();
+                int slnew = hoaDonChiTiet.getSoLuong();
+                hdcRepo.capNhatSoLuongChiTietSanPham(chiTietGIay, slnew);
+            }
+
+            // Xóa các hàng trong bảng giỏ hàng
+            DefaultTableModel model = (DefaultTableModel) tb_giohang2.getModel();
+            model.setRowCount(0);
+
+            // Làm mới bảng giỏ hàng
+            loadtable(listspct);
         }
-
-        // Xóa các hàng trong bảng giỏ hàng
-        DefaultTableModel model = (DefaultTableModel) tb_giohang2.getModel();
-        model.setRowCount(0);
-        
-        // Làm mới bảng giỏ hàng
-        loadtable(listspct);
-    }
     }
 
     private void showDetailHDC() {
@@ -1740,10 +1740,11 @@ public class Form_BanHang extends javax.swing.JPanel {
         txt_thanhtien2.setText(formattedThanhTien);
     }
     private void btn_update2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_update2ActionPerformed
+        int sl = 0;
         int rowGH = tb_giohang2.getSelectedRow();
 
         if (rowGH == -1) {
-            JOptionPane.showMessageDialog(this, "Bạn phải chọn 1 dòng để chỉnh sửa!");
+            JOptionPane.showMessageDialog(this, "Bạn phải chọn 1 dòng để sửa!");
             return;
         }
 
@@ -1751,60 +1752,94 @@ public class Form_BanHang extends javax.swing.JPanel {
         int sl_gh = Integer.parseInt(tb_giohang2.getValueAt(rowGH, 2).toString());
         int sl_sp = hdcRepo.getSoLuongByIdCTSP(idHDCT);
 
-        String slNhap = JOptionPane.showInputDialog(this, "Nhập số lượng sản phẩm mới:");
+        String slNhap = JOptionPane.showInputDialog(this, "Nhập số lượng sản phẩm muốn mua:");
 
         if (slNhap == null || !slNhap.matches("\\d+")) {
             JOptionPane.showMessageDialog(this, "Số lượng phải là số nguyên dương!");
             return;
         }
 
-        int slMoi = Integer.parseInt(slNhap);
-        if (slMoi <= 0) {
+        sl = Integer.parseInt(slNhap);
+        if (sl <= 0) {
             JOptionPane.showMessageDialog(this, "Số lượng phải là số nguyên dương!");
             return;
         }
 
-        // Tính toán thành tiền mới
-        double donGia = Double.parseDouble(tb_giohang2.getValueAt(rowGH, 7).toString());
-        double thanhTienMoi = slMoi * donGia;
+// Tìm dòng trong tb_HdSp2 có id_ctsp trùng với idHDCT
+        Double giaBan = null;
+        for (int i = 0; i < tb_HdSp2.getRowCount(); i++) {
+            String id_ctsp = tb_HdSp2.getValueAt(i, 0).toString();
+            if (id_ctsp.equals(idHDCT)) {
+                giaBan = Double.parseDouble(tb_HdSp2.getValueAt(i, 3).toString()); // Lấy giá trị từ cột thứ ba (chỉ số 2)
+                break;
+            }
+        }
 
-        // Hiển thị thông tin sản phẩm sau chỉnh sửa
-        String thongTinSP = "----------- THÔNG TIN SẢN PHẨM ---------\n"
+        if (giaBan == null) {
+            JOptionPane.showMessageDialog(this, "Không tìm thấy sản phẩm phù hợp trong bảng sản phẩm!");
+            return;
+        }
+
+        Double thanhTien = giaBan * sl;
+
+// Tạo đối tượng JOptionPane
+        JOptionPane optionPane = new JOptionPane(
+                "----------- THÔNG TIN SẢN PHẨM ---------\n"
                 + "\nTên sản phẩm: " + tb_giohang2.getValueAt(rowGH, 1)
-                + "\nSố lượng: " + slMoi
-                + "\nĐơn giá: " + donGia
-                + "\nThành tiền: " + thanhTienMoi;
+                + "\n"
+                + "\nSố lượng: " + sl
+                + "\n"
+                + "\nĐơn giá: " + giaBan
+                + "\n"
+                + "\nThành tiền: " + thanhTien,
+                JOptionPane.QUESTION_MESSAGE,
+                JOptionPane.YES_NO_OPTION
+        );
 
-        int confirm = JOptionPane.showConfirmDialog(this, thongTinSP, "Xác nhận chỉnh sửa", JOptionPane.YES_NO_OPTION);
-        if (confirm == JOptionPane.YES_OPTION) {
+// Thiết lập kích thước cho JOptionPane
+        optionPane.setPreferredSize(new Dimension(400, 200));
+
+// Tạo hộp thoại JDialog
+        JDialog dialog = optionPane.createDialog(this, "Cập nhật số lượng sản phẩm giỏ hàng!");
+
+// Đặt vị trí của JDialog ở giữa màn hình
+        dialog.setLocationRelativeTo(null);
+
+// Hiển thị hộp thoại và xử lý kết quả khi người dùng nhấn Yes hoặc No
+        dialog.setVisible(true);
+
+// Lấy kết quả khi hộp thoại đóng lại
+        int result = (int) optionPane.getValue();
+        if (result == JOptionPane.YES_OPTION) {
             // Lấy số lượng hiện tại của sản phẩm trong kho và trong giỏ hàng
             int slKhoHienTai = hdcRepo.getSoLuongByIdCTSP(idHDCT);
+            System.out.println("Số lượng kho hiện tại: " + slKhoHienTai);
 
             // Tính toán số lượng mới trong giỏ hàng và trong kho
-            int slChenhLech = slMoi - sl_gh;
-            int slGioHangMoi = slMoi;
-            int slKhoMoi = slKhoHienTai - slChenhLech;
+            int slChenhLech = sl_gh - sl;
+            int slGioHangMoi = sl;
+            int slKhoMoi = slKhoHienTai + slChenhLech;
+
+            System.out.println("Số lượng chênh lệch: " + slChenhLech);
+            System.out.println("Số lượng giỏ hàng mới: " + slGioHangMoi);
+            System.out.println("Số lượng kho mới: " + slKhoMoi);
 
             // Cập nhật số lượng mới trong kho
             if (slKhoMoi < 0) {
                 JOptionPane.showMessageDialog(this, "Số lượng trong kho không đủ để cập nhật!");
                 return;
             }
-            hdcRepo.updateSoLuongChiTietSanPham(slKhoMoi, idHDCT);
-
-            // Cập nhật số lượng mới trong giỏ hàng và thành tiền
-            hdcRepo.updateSoLuongChiTietHoaDonbyId(slGioHangMoi, thanhTienMoi, idHDCT);
 
             // Cập nhật bảng giỏ hàng
             tb_giohang2.setValueAt(slGioHangMoi, rowGH, 2); // Cập nhật số lượng mới trong bảng giỏ hàng
-            tb_giohang2.setValueAt(thanhTienMoi, rowGH, 9); // Cập nhật thành tiền mới trong bảng giỏ hàng
+            tb_giohang2.setValueAt(thanhTien, rowGH, 9); // Cập nhật thành tiền mới trong bảng giỏ hàng
 
             // Cập nhật bảng kho và giỏ hàng trên giao diện người dùng
             fillTableGioHang();
             loadtable(listspct);
-            updateThanhTienGUI(thanhTienMoi);
-          
+            updateThanhTienGUI(thanhTien);
         }
+
 
     }//GEN-LAST:event_btn_update2ActionPerformed
 
@@ -2112,7 +2147,7 @@ public class Form_BanHang extends javax.swing.JPanel {
                 hdcRepo.ngayThanhToanHoaDon(idHD);
                 hdcRepo.updateNguoiDung(idHD, maND);
                 hdcRepo.updateTienHoaDon(idHD, tongTien, thanhTien);
-                
+
                 clearFormGioHang();
                 clearFormHoaDon();
                 fillTableHoaDonCho();

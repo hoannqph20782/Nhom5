@@ -43,7 +43,7 @@ public class HoaDonChoRepo {
                     + "LEFT JOIN NGUOIDUNG ON HOADON.IdND = NGUOIDUNG.Id\n"
                     + "LEFT JOIN KHACHHANG ON HOADON.IdKH = KHACHHANG.Id\n"
                     + "LEFT JOIN KHUYENMAI ON HOADON.IdKM = KHUYENMAI.Id\n"
-                    + "WHERE HOADON.TrangThai = 0;";
+                    + "WHERE HOADON.TrangThai = 0  ORDER by Id desc;";
             PreparedStatement st = con.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
@@ -624,7 +624,7 @@ public class HoaDonChoRepo {
 
     public Integer updateSoLuongChiTietHoaDonbyId(Integer sl, Double donGia, String idCTHD) {
         Integer row = null;
-        String sql = "UPDATE HOADONCHITIET SET SoLuong =?, DonGia =? WHERE Id =?";
+        String sql = "  UPDATE HOADONCHITIET SET SoLuong = ?, DonGia = ? WHERE Id = ?";
         try {
             Connection con = DBConnext.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);

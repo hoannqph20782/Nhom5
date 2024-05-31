@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+  <NonVisualComponents>
+    <Component class="javax.swing.ButtonGroup" name="buttonGroup1">
+    </Component>
+    <Component class="javax.swing.ButtonGroup" name="buttonGroup2">
+    </Component>
+    <Component class="javax.swing.ButtonGroup" name="buttonGroup3">
+    </Component>
+  </NonVisualComponents>
   <Properties>
     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
       <Color blue="ff" green="ff" red="cc" type="rgb"/>
@@ -54,7 +62,7 @@
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace pref="62" max="32767" attributes="0"/>
+                                      <EmptySpace pref="68" max="32767" attributes="0"/>
                                       <Component id="txtNgaySinh" min="-2" pref="206" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
@@ -240,7 +248,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
-                  <Component id="txtTimKiem2" min="-2" pref="180" max="-2" attributes="0"/>
+                  <Component id="txtTimKiem" min="-2" pref="180" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jButton8" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
@@ -252,7 +260,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="txtTimKiem2" alignment="3" pref="35" max="32767" attributes="0"/>
+                      <Component id="txtTimKiem" alignment="3" pref="35" max="32767" attributes="0"/>
                       <Component id="jButton8" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
@@ -261,7 +269,7 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JTextField" name="txtTimKiem2">
+        <Component class="javax.swing.JTextField" name="txtTimKiem">
         </Component>
         <Component class="javax.swing.JButton" name="jButton8">
           <Properties>
@@ -366,6 +374,9 @@
     </Component>
     <Component class="javax.swing.JRadioButton" name="rdoHoatDong">
       <Properties>
+        <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+          <ComponentRef name="buttonGroup2"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Ho&#x1ea1;t &#x110;&#x1ed9;ng"/>
       </Properties>
     </Component>
@@ -376,11 +387,17 @@
     </Component>
     <Component class="javax.swing.JRadioButton" name="rdoKhongHoatDong">
       <Properties>
+        <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+          <ComponentRef name="buttonGroup2"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Kh&#xf4;ng Ho&#x1ea1;t &#x110;&#x1ed9;ng"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JRadioButton" name="rdoNam">
       <Properties>
+        <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+          <ComponentRef name="buttonGroup1"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Nam"/>
       </Properties>
     </Component>
@@ -417,6 +434,9 @@
     </Container>
     <Component class="javax.swing.JRadioButton" name="rdoNu">
       <Properties>
+        <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+          <ComponentRef name="buttonGroup1"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="N&#x1eef;"/>
       </Properties>
     </Component>
