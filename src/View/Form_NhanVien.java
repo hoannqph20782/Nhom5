@@ -605,7 +605,7 @@ public class Form_NhanVien extends javax.swing.JPanel {
 
     private void tblNhanVienMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblNhanVienMouseClicked
 
-        int row = tblNhanVien.getSelectedRow();
+       int row = tblNhanVien.getSelectedRow();
         if (row < 0) {
             return;
         }

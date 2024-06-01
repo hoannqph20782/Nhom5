@@ -8,6 +8,7 @@ import Interface.SanPhamChiTietImpl;
 import Model.ChiTietGiay;
 import Repo.SanPhamChiTietRepository;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -25,4 +26,40 @@ public class SanPhamChiTietService implements SanPhamChiTietImpl{
     public ArrayList<ChiTietGiay> getChiTietSanPham() {
       return sanPhamChiTietRepository.getAllChiTietSanPham();
     }
+
+    @Override
+    public List<String> getDanhMuc() {
+        return sanPhamChiTietRepository.getDanhMuc();
+    }
+
+    @Override
+    public List<String> getSanPham() {
+         return sanPhamChiTietRepository.getSanPham();
+    }
+
+    @Override
+    public List<String> getMauSac() {
+         return sanPhamChiTietRepository.getMauSac();
+    }
+
+    @Override
+    public List<String> getSize() {
+         return sanPhamChiTietRepository.getSize();
+    }
+
+    @Override
+    public List<String> getNSX() {
+         return sanPhamChiTietRepository.getNSX();
+    }
+
+    @Override
+    public List<String> getDe() {
+         return sanPhamChiTietRepository.getDe();
+    }
+
+    @Override
+    public List<String> getChatLieu() {
+        return sanPhamChiTietRepository.getChatLieu();
+    }
+    
 }

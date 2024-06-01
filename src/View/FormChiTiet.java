@@ -9,6 +9,7 @@ import Model.SanPham;
 import Service.SanPhamChiTietService;
 import Service.SanPhamService;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -23,6 +24,13 @@ public class FormChiTiet extends javax.swing.JFrame {
     SanPhamService sanPhamService = new SanPhamService();
     SanPhamChiTietService ctgService = new SanPhamChiTietService();
     ArrayList<ChiTietGiay> listspct = ctgService.getChiTietSanPham();
+     List<String> listDanhMuc;
+    List<String> listSanPham;
+    List<String> listChatLieu;
+    List<String> listMauSac;
+    List<String> listSize;
+    List<String> listDe;
+    List<String> listNsx;
 
     public FormChiTiet() {
         initComponents();
@@ -52,6 +60,63 @@ public class FormChiTiet extends javax.swing.JFrame {
         }
         listspct = ctg;
     }
+     public void fillCboChiTiet() {
+        listDanhMuc = ctgService.getDanhMuc();
+        listDe = ctgService.getDe();
+        listSanPham = ctgService.getSanPham();
+        listSize = ctgService.getSize();
+        listNsx = ctgService.getNSX();
+        listChatLieu = ctgService.getChatLieu();
+        listMauSac = ctgService.getMauSac();
+        if (listDanhMuc.isEmpty() || listDe.isEmpty()
+                || listSanPham.isEmpty() || listSize.isEmpty()
+                || listNsx.isEmpty() || listChatLieu.isEmpty()
+                || listMauSac.isEmpty()) {
+            System.out.println("Mot Trong Cac List Cbo Rong");
+        } else {
+            cboDanhMuc.removeAllItems();
+            for (String string : listDanhMuc) {
+                cboDanhMuc.addItem(string);
+            }
+
+            cboDe.removeAllItems();
+            for (String string : listDe) {
+                cboDe.addItem(string);
+            }
+
+            cboSanPham.removeAllItems();
+            for (String string : listSanPham) {
+                cboSanPham.addItem(string);
+            }
+
+            cboSize.removeAllItems();
+            for (String string : listSize) {
+                cboSize.addItem(string);
+            }
+
+            cboNsx.removeAllItems();
+            for (String string : listNsx) {
+                cboNsx.addItem(string);
+            }
+
+            cboChatLieu.removeAllItems();
+            for (String string : listChatLieu) {
+                cboChatLieu.addItem(string);
+            }
+
+            cboMauSac.removeAllItems();
+            for (String string : listMauSac) {
+                cboMauSac.addItem(string);
+            }
+            listDanhMuc.add("All");
+            cboDanhMuc.removeAllItems();
+            for (String string : listDanhMuc) {
+                cboDanhMuc.addItem(string);
+            }
+
+        }
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.

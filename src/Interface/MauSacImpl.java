@@ -22,4 +22,10 @@ public interface MauSacImpl {
     public MauSac getIDByName(String mauSac);
 
     public void updateTrangThai(String idMauSac);
+
+    public MauSac addMausac(MauSac mausac);
+
+//    public boolean deleteMauSacById(Integer id);
+    public MauSac getMauSacById(Integer id);
+    public boolean updateMauSacFull(MauSac mauSac);
 }

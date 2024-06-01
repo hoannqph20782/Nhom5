@@ -22,6 +22,8 @@ import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
+import java.sql.SQLException;
+import java.util.List;
 
 public class SanPhamChiTietRepository {
 
@@ -142,11 +144,10 @@ public class SanPhamChiTietRepository {
         }
         return listctg;
     }
-
-    public List<String> getDanhMuc() {
+     public List<String> getDanhMuc() {
         List<String> lstDanhMuc = new ArrayList<>();
         String sql = "select * from DANHMUC where TrangThai = 1";
-        try (Connection conn = DBConnext.getConnection()) {
+        try (Connection conn = dBConnext.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -158,6 +159,103 @@ public class SanPhamChiTietRepository {
         }
         return null;
     }
+
+    public List<String> getSanPham() {
+        List<String> lstDanhMuc = new ArrayList<>();
+        String sql = "select * from SANPHAM where TrangThai = 1";
+        try (Connection conn = dBConnext.getConnection()) {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                lstDanhMuc.add(rs.getString("Ten"));
+            }
+            return lstDanhMuc;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<String> getChatLieu() {
+        List<String> lstDanhMuc = new ArrayList<>();
+        String sql = "select * from CHATLIEU where TrangThai = 1";
+        try (Connection conn = dBConnext.getConnection()) {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                lstDanhMuc.add(rs.getString("Ten"));
+            }
+            return lstDanhMuc;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<String> getMauSac() {
+        List<String> lstDanhMuc = new ArrayList<>();
+        String sql = "select * from MAUSAC where TrangThai = 1";
+        try (Connection conn = dBConnext.getConnection()) {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                lstDanhMuc.add(rs.getString("MauSac"));
+            }
+            return lstDanhMuc;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<String> getSize() {
+        List<String> lstDanhMuc = new ArrayList<>();
+        String sql = "select * from SIZE where TrangThai = 1";
+        try (Connection conn = dBConnext.getConnection()) {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                lstDanhMuc.add(rs.getString("KichCo"));
+            }
+            return lstDanhMuc;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<String> getNSX() {
+        List<String> lstDanhMuc = new ArrayList<>();
+        String sql = "select * from NSX where TrangThai = 1";
+        try (Connection conn = dBConnext.getConnection()) {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                lstDanhMuc.add(rs.getString("Ten"));
+            }
+            return lstDanhMuc;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<String> getDe() {
+        List<String> lstDanhMuc = new ArrayList<>();
+        String sql = "select * from DE where TrangThai = 1";
+        try (Connection conn = dBConnext.getConnection()) {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                lstDanhMuc.add(rs.getString("Ten"));
+            }
+            return lstDanhMuc;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     public ArrayList<ChiTietGiay> getAllSanPham() {
         ArrayList<ChiTietGiay> listctg = new ArrayList<>();
