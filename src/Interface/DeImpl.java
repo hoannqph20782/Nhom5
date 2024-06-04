@@ -22,4 +22,5 @@ public interface DeImpl {
     public De getIDByName(String de);
 
     public void updateTrangThai(String idDe);
+    public boolean insertCrud(De cl);
 }

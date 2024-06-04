@@ -4,6 +4,7 @@
  */
 package Interface;
 
+import Model.DanhMuc;
 import Model.MauSac;
 import java.util.ArrayList;
 
@@ -22,4 +23,15 @@ public interface MauSacImpl {
     public MauSac getIDByName(String mauSac);
 
     public void updateTrangThai(String idMauSac);
+
+    public MauSac addMausac(MauSac mausac);
+
+//    public boolean deleteMauSacById(Integer id);
+    public MauSac getMauSacById(Integer id);
+
+    public boolean updateMauSacFull(MauSac mauSac);
+
+    public boolean insertMauSacCrud(MauSac ms);
+
+
 }

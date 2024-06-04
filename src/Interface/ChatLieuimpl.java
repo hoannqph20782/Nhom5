@@ -22,4 +22,5 @@ public interface ChatLieuimpl {
     public ChatLieu getIDByName(String chatLieu);
 
     public void updateTrangThai(String idChatLieu);
+     public boolean insertCrud(ChatLieu cl);
 }

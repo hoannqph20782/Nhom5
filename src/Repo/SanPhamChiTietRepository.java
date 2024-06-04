@@ -22,6 +22,8 @@ import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
+import java.sql.SQLException;
+import java.util.List;
 
 public class SanPhamChiTietRepository {
 
@@ -43,7 +45,7 @@ public class SanPhamChiTietRepository {
                 + "FROM dbo.CHITIETGIAY\n"
                 + "INNER JOIN dbo.SanPham ON dbo.CHITIETGIAY.IdSanPham = dbo.SanPham.Id\n"
                 + "INNER JOIN dbo.DANHMUC ON dbo.CHITIETGIAY.IdDanhMuc = dbo.DANHMUC.Id;";
-        try (Connection con = dBConnext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+        try ( Connection con = dBConnext.getConnection();  PreparedStatement ps = con.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 // Tạo đối tượng ChiTietGiay và thêm vào danh sách
@@ -94,7 +96,7 @@ public class SanPhamChiTietRepository {
                 + "                INNER JOIN dbo.ChatLieu ON dbo.CHITIETGIAY.IdChatLieu = dbo.ChatLieu.Id\n"
                 + "                INNER JOIN dbo.NSX ON dbo.CHITIETGIAY.[IdNSX] = dbo.NSX.Id\n"
                 + "                INNER JOIN dbo.DE ON dbo.CHITIETGIAY.[IdDe] = dbo.De.Id;";
-        try (Connection con = dBConnext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+        try ( Connection con = dBConnext.getConnection();  PreparedStatement ps = con.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 // Tạo đối tượng ChiTietGiay và thêm vào danh sách
@@ -146,7 +148,103 @@ public class SanPhamChiTietRepository {
     public List<String> getDanhMuc() {
         List<String> lstDanhMuc = new ArrayList<>();
         String sql = "select * from DANHMUC where TrangThai = 1";
-        try (Connection conn = DBConnext.getConnection()) {
+        try ( Connection conn = dBConnext.getConnection()) {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                lstDanhMuc.add(rs.getString("Ten"));
+            }
+            return lstDanhMuc;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<String> getSanPham() {
+        List<String> lstDanhMuc = new ArrayList<>();
+        String sql = "select * from SANPHAM where TrangThai = 1";
+        try ( Connection conn = dBConnext.getConnection()) {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                lstDanhMuc.add(rs.getString("Ten"));
+            }
+            return lstDanhMuc;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<String> getChatLieu() {
+        List<String> lstDanhMuc = new ArrayList<>();
+        String sql = "select * from CHATLIEU where TrangThai = 1";
+        try ( Connection conn = dBConnext.getConnection()) {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                lstDanhMuc.add(rs.getString("Ten"));
+            }
+            return lstDanhMuc;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<String> getMauSac() {
+        List<String> lstDanhMuc = new ArrayList<>();
+        String sql = "select * from MAUSAC where TrangThai = 1";
+        try ( Connection conn = dBConnext.getConnection()) {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                lstDanhMuc.add(rs.getString("MauSac"));
+            }
+            return lstDanhMuc;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<String> getSize() {
+        List<String> lstDanhMuc = new ArrayList<>();
+        String sql = "select * from SIZE where TrangThai = 1";
+        try ( Connection conn = dBConnext.getConnection()) {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                lstDanhMuc.add(rs.getString("KichCo"));
+            }
+            return lstDanhMuc;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<String> getNSX() {
+        List<String> lstDanhMuc = new ArrayList<>();
+        String sql = "select * from NSX where TrangThai = 1";
+        try ( Connection conn = dBConnext.getConnection()) {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                lstDanhMuc.add(rs.getString("Ten"));
+            }
+            return lstDanhMuc;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<String> getDe() {
+        List<String> lstDanhMuc = new ArrayList<>();
+        String sql = "select * from DE where TrangThai = 1";
+        try ( Connection conn = dBConnext.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -202,7 +300,7 @@ public class SanPhamChiTietRepository {
     public boolean addChiTietSanPham(ChiTietGiay ctg) {
         String sql = "insert into CHITIETGIAY (IdSanPham,IdDanhMuc,GiaBan,MoTa,HinhAnh,TrangThai) values \n"
                 + " (?,?,?,?,?,?)";
-        try (Connection con = DBConnext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+        try ( Connection con = DBConnext.getConnection();  PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setObject(1, ctg.getIdSanPham().getIdSanPham());
             ps.setObject(2, ctg.getIdDanhMuc().getId());
             ps.setObject(3, ctg.getGiaBan());
@@ -219,7 +317,7 @@ public class SanPhamChiTietRepository {
 
     public boolean updateChiTietSanPham(ChiTietGiay ctg) {
         String sql = "UPDATE CHITIETGIAY SET IdDanhMuc = ? , IdSanPham = ? ,GiaBan = ? ,MoTa = ? ,TrangThai = ?, HinhAnh = ? where Id = ?";
-        try (Connection con = dBConnext.getConnection()) {
+        try ( Connection con = dBConnext.getConnection()) {
             CallableStatement ps = con.prepareCall(sql);
 
             ps.setObject(1, ctg.getIdDanhMuc().getId());
@@ -242,7 +340,7 @@ public class SanPhamChiTietRepository {
         String sql = "SELECT * FROM CHITIETGIAY ctg "
                 + "JOIN DanhMuc dm ON ctg.IdDanhMuc = dm.Id "
                 + "WHERE dm.Ten LIKE ? AND (? IS NULL OR ctg.giaBan = ?)";
-        try (Connection connection = dBConnext.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        try ( Connection connection = dBConnext.getConnection();  PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             preparedStatement.setString(1, "%" + keyword + "%"); // Use wildcard for LIKE
             if (giaB == null) {
@@ -253,7 +351,7 @@ public class SanPhamChiTietRepository {
                 preparedStatement.setFloat(3, giaB);
             }
 
-            try (ResultSet rs = preparedStatement.executeQuery()) {
+            try ( ResultSet rs = preparedStatement.executeQuery()) {
                 while (rs.next()) {
                     DanhMuc dm = dmr.getDanhMucByID(rs.getString("IdDanhMuc"));
                     SanPham sp = spr.getSanPhamByID(rs.getString("IdSanPham"));
@@ -282,5 +380,6 @@ public class SanPhamChiTietRepository {
         }
         return ctgList;
     }
+
 
 }

@@ -23,7 +23,7 @@ public class MauSacRepository {
     public ArrayList<MauSac> getAllMauSac() {
         ArrayList<MauSac> mauSacs = new ArrayList<>();
         String sql = "select * from MAUSAC";
-        try (Connection con = dBConnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+        try ( Connection con = dBConnection.getConnection();  PreparedStatement ps = con.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 MauSac ms = new MauSac();
@@ -70,12 +70,28 @@ public class MauSacRepository {
     }
 
     public boolean insertMauSac(MauSac mauSac) {
-        try (Connection connection = dBConnection.getConnection()) {
-            String sql = "insert into MAUSAC (Ma , MauSac) values (?,?)";
-            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        try ( Connection connection = dBConnection.getConnection()) {
+            String sql = "insert into MAUSAC (Ma , MauSac, ) values (?,?,)";
+            try ( PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setString(1, generateUniqueCode());
                 preparedStatement.setString(2, mauSac.getMauSac());
 
+                int rowsAffected = preparedStatement.executeUpdate();
+                return rowsAffected > 0;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(MauSacRepository.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
+    public boolean insertMauSaccrud(MauSac mauSac) {
+        try ( Connection connection = dBConnection.getConnection()) {
+            String sql = "insert into MAUSAC (Ma , MauSac , TrangThai ) values (?,?,?)";
+            try ( PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, generateUniqueCode());
+                preparedStatement.setString(2, mauSac.getMauSac());
+                preparedStatement.setInt(3, mauSac.getTrangThai());
                 int rowsAffected = preparedStatement.executeUpdate();
                 return rowsAffected > 0;
             }
@@ -89,7 +105,7 @@ public class MauSacRepository {
         String randomCode = String.valueOf((int) (Math.random() * 10000));
         return "MS" + String.format("%04d", Integer.parseInt(randomCode));
     }
-    
+
     public boolean updateMauSac(MauSac mauSac) {
         try {
             Connection connection = dBConnection.getConnection();
@@ -102,6 +118,94 @@ public class MauSacRepository {
             return true;
         } catch (SQLException ex) {
             Logger.getLogger(MauSacRepository.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
+    public MauSac addMauSac(MauSac mauSac) {
+
+        String sql = "INSERT INTO MauSac (ma, mauSac, trangThai) VALUES (?, ?, ?)";
+
+        try ( Connection conn = dBConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+            ps.setString(1, mauSac.getMa());
+            ps.setString(2, mauSac.getMauSac());
+            ps.setInt(3, mauSac.getTrangThai());
+
+            int affectedRows = ps.executeUpdate();
+
+            if (affectedRows > 0) {
+                try ( ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        mauSac.setId(generatedKeys.getInt(1));
+                    }
+                }
+                return mauSac;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+//     public boolean deleteMauSacById(Integer id) {
+//        String sql = "DELETE FROM MauSac WHERE Id = ?";
+//        
+//        try (Connection conn = dBConnection.getConnection();
+//             PreparedStatement ps = conn.prepareStatement(sql)) {
+//            
+//            ps.setInt(1, id);
+//            
+//            int rowsAffected = ps.executeUpdate();
+//            
+//            return rowsAffected > 0;
+//            
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//            return false;
+//        }
+//    }
+
+    public MauSac getMauSacById(Integer id) {
+        String sql = "SELECT * FROM MauSac WHERE Id = ?";
+
+        try ( Connection conn = dBConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+
+            try ( ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    MauSac mauSac = new MauSac();
+                    mauSac.setId(rs.getInt("Id"));
+                    mauSac.setMa(rs.getString("Ma"));
+                    mauSac.setMauSac(rs.getString("MauSac"));
+                    mauSac.setTrangThai(rs.getInt("TrangThai"));
+                    return mauSac;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public boolean updateMauSacFull(MauSac mauSac) {
+        String sql = "UPDATE MauSac SET Ma = ?, MauSac = ?, TrangThai = ? WHERE Id = ?";
+
+        try ( Connection conn = dBConnection.getConnection();  PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, mauSac.getMa());
+            pstmt.setString(2, mauSac.getMauSac());
+            pstmt.setInt(3, mauSac.getTrangThai());
+            pstmt.setInt(4, mauSac.getId());
+
+            int rowsAffected = pstmt.executeUpdate();
+
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
             return false;
         }
     }

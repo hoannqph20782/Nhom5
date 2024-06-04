@@ -44,5 +44,10 @@ public class ChatLieuService implements ChatLieuimpl {
     public void updateTrangThai(String idChatLieu) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+    @Override
+    public boolean insertCrud(ChatLieu cl) {
+        return chatLieuRepository.insertChatLieuCrud(cl);
+    }
     
 }

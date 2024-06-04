@@ -21,10 +21,10 @@ import java.util.logging.Logger;
  * @author ADMIN
  */
 public class DeRepository {
-    
+
     DBConnext dbConnext;
 
-       public ArrayList<De> getAllde() {
+    public ArrayList<De> getAllde() {
         ArrayList<De> deGiay = new ArrayList<>();
         String sql = "select * from SANPHAM";
         try ( Connection con = dbConnext.getConnection();  PreparedStatement ps = con.prepareStatement(sql)) {
@@ -42,7 +42,7 @@ public class DeRepository {
         }
         return deGiay;
     }
-       
+
     public De getDeByID(String id) {
 
         String sql = "SELECT * FROM DE WHERE Id=?";
@@ -74,12 +74,28 @@ public class DeRepository {
     }
 
     public boolean insertDe(De de) {
-        try (Connection connection = dbConnext.getConnection()) {
+        try ( Connection connection = dbConnext.getConnection()) {
             String sql = "INSERT INTO DE (Ma , Ten) VALUES (?, ?)";
-            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            try ( PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setString(1, generateUniqueCode());
                 preparedStatement.setString(2, de.getTen());
 
+                int rowsAffected = preparedStatement.executeUpdate();
+                return rowsAffected > 0;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DeRepository.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
+    public boolean insertDeCrud(De de) {
+        try ( Connection connection = dbConnext.getConnection()) {
+            String sql = "INSERT INTO DE (Ma , Ten, TrangThai) VALUES (?, ?,?)";
+            try ( PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, generateUniqueCode());
+                preparedStatement.setString(2, de.getTen());
+                preparedStatement.setInt(3, de.getTrangThai());
                 int rowsAffected = preparedStatement.executeUpdate();
                 return rowsAffected > 0;
             }
@@ -93,7 +109,7 @@ public class DeRepository {
         String randomCode = String.valueOf((int) (Math.random() * 10000));
         return "DE" + String.format("%04d", Integer.parseInt(randomCode));
     }
-    
+
     public boolean updateDe(De de) {
         try {
             Connection connection = dbConnext.getConnection();

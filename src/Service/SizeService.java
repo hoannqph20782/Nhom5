@@ -6,6 +6,7 @@ package Service;
 
 import Interface.SizeImpl;
 import Model.SIZE;
+import Model.Size2;
 import Repo.SizeRepository;
 import java.util.ArrayList;
 
@@ -39,5 +40,15 @@ public class SizeService implements SizeImpl{
     @Override
     public void updateTrangThai(String idSize) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public boolean insertSizeCRUD(Size2 size2) {
+        return sizeRepository.insertSizeCRUD(size2);
+        }
+
+    @Override
+    public boolean updateSizeCRUD(Size2 size2) {
+      return sizeRepository.updateSizeCRUD(size2);
     }
 }

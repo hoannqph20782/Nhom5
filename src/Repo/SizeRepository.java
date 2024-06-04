@@ -5,6 +5,7 @@
 package Repo;
 
 import Model.SIZE;
+import Model.Size2;
 import Utilities.DBConnext;
 import Utilities.JDBCHelper;
 import java.util.ArrayList;
@@ -16,7 +17,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class SizeRepository {
+
     DBConnext dBConnext;
+
     public ArrayList<SIZE> getAllSize() {
         ArrayList<SIZE> size = new ArrayList<>();
         String sql = "select*from Size";
@@ -36,7 +39,8 @@ public class SizeRepository {
         }
         return size;
     }
-      public SIZE getSizeByID(String id) {
+
+    public SIZE getSizeByID(String id) {
 
         String sql = "SELECT * FROM SIZE WHERE Id=?";
         ResultSet rs = JDBCHelper.excuteQuery(sql, id);
@@ -67,9 +71,9 @@ public class SizeRepository {
     }
 
     public boolean insertSize(SIZE size) {
-        try (Connection connection = dBConnext.getConnection()) {
+        try ( Connection connection = dBConnext.getConnection()) {
             String sql = "insert into SIZE (Ma , KichCo) values (?,?)";
-            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            try ( PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setString(1, generateUniqueCode());
                 preparedStatement.setInt(2, size.getKichCo());
 
@@ -95,6 +99,39 @@ public class SizeRepository {
             ps.setInt(1, size.getKichCo());
             ps.setString(2, size.getMa());
             ps.setInt(3, size.getId());
+            ps.execute();
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(SizeRepository.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
+    public boolean insertSizeCRUD(Size2 size2) {
+        try ( Connection connection = dBConnext.getConnection()) {
+            String sql = "insert into SIZE (Ma , KichCo,TrangThai) values (?,?,?)";
+            try ( PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, generateUniqueCode());
+                preparedStatement.setBigDecimal(2, size2.getKichCo());
+                preparedStatement.setInt(3, size2.getTrangThai());
+                int rowsAffected = preparedStatement.executeUpdate();
+                return rowsAffected > 0;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(SizeRepository.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
+    public boolean updateSizeCRUD(Size2 size2) {
+        try {
+            Connection connection = dBConnext.getConnection();
+            String sql = "update SIZE set KichCo = ? , Ma = ?, TrangThai = ? where Id = ?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setObject(1, size2.getKichCo());
+            ps.setObject(2, size2.getMa());
+            ps.setObject(3, size2.getId());
+             ps.setObject(4, size2.getTrangThai());
             ps.execute();
             return true;
         } catch (SQLException ex) {
