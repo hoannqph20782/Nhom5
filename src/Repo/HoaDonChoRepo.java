@@ -624,7 +624,7 @@ public class HoaDonChoRepo {
 
     public Integer updateSoLuongChiTietHoaDonbyId(Integer sl, Double donGia, String idCTHD) {
         Integer row = null;
-        String sql = "  UPDATE HOADONCHITIET SET SoLuong = ?, DonGia = ? WHERE Id = ?";
+        String sql = "UPDATE HOADONCHITIET SET SoLuong =?, DonGia =? WHERE Id =?";
         try {
             Connection con = DBConnext.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
@@ -763,21 +763,22 @@ public class HoaDonChoRepo {
 
     public Integer getSoLuongByIdCTSP(String idCTSP) {
         Integer soLuong = null;
-
         String sql = "SELECT SoLuong FROM CHITIETGIAY WHERE Id = ?";
-        try ( Connection con = DBConnext.getConnection();  PreparedStatement ps = con.prepareStatement(sql)) {
+        try {
+            Connection con = DBConnext.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, idCTSP);
 
-            try ( ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    soLuong = rs.getInt("SoLuong");
-                }
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                soLuong = rs.getInt("SoLuong");
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return soLuong;
     }
+
 
     public void xoaHoaDonCT(String id) {
         String sql = "DELETE FROM HOADONCHITIET WHERE Id = ?";
@@ -791,6 +792,24 @@ public class HoaDonChoRepo {
             e.printStackTrace();
         }
 
+    }
+    
+    public String getIdHDCT(String idHD, String idCTG) {
+        String idHDCT = null;
+        try {
+            Connection con = DBConnext.getConnection();
+            String sql = "SELECT Id FROM HOADONCHITIET WHERE IdCTD = ? AND IdHD = ?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, idCTG);
+            ps.setString(2, idHD);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                idHDCT = rs.getString("Id");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return idHDCT;
     }
 
     public static void main(String[] args) {

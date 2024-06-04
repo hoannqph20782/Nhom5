@@ -769,12 +769,12 @@ public class Form_SanPham extends javax.swing.JPanel {
     }//GEN-LAST:event_btnResetActionPerformed
 
     private void btnChiTietActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChiTietActionPerformed
-
-        System.out.println("Button clicked!"); // Kiểm tra xem phương thức được gọi
-
-     System.out.println("Button clicked!"); // Kiểm tra xem phương thức được gọi
-
-        // Tạo một JDialog mới
+        int rowSP = tbDanhSach.getSelectedRow();
+        if (rowSP <= -1) {
+            JOptionPane.showMessageDialog(this, "Bạn phải chọn hóa đơn để thêm sản phẩm");
+            return;
+        }
+        lblId.setText(tbDanhSach.getValueAt(rowSP, 0).toString());
         JDialog dialog = new JDialog();
         dialog.setTitle("Chi Tiết Sản Phẩm");
 

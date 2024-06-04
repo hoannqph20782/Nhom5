@@ -12,7 +12,6 @@ import Repo.HoaDonChoRepo;
 import Repo.HoaDonRepo;
 import Service.SanPhamChiTietService;
 import Service.SanPhamService;
-import com.microsoft.sqlserver.jdbc.StringUtils;
 import java.awt.Dimension;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -1092,7 +1091,7 @@ public class Form_BanHang extends javax.swing.JPanel {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, true, true
+                false, false, false, false, false, false, false, true, true, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -1102,7 +1101,6 @@ public class Form_BanHang extends javax.swing.JPanel {
         jScrollPane8.setViewportView(tb_giohang2);
         if (tb_giohang2.getColumnModel().getColumnCount() > 0) {
             tb_giohang2.getColumnModel().getColumn(3).setResizable(false);
-            tb_giohang2.getColumnModel().getColumn(7).setResizable(false);
         }
 
         btn_update2.setText("Chỉnh Sửa");
@@ -1742,15 +1740,20 @@ public class Form_BanHang extends javax.swing.JPanel {
     private void btn_update2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_update2ActionPerformed
         int sl = 0;
         int rowGH = tb_giohang2.getSelectedRow();
+        int rowHD = tb_hoadon2.getSelectedRow();
+        String maHD = tb_hoadon2.getValueAt(rowHD, 0).toString();
+        String idHD = hdcRepo.getIdHoaDonByMa(maHD);
+        
 
         if (rowGH == -1) {
             JOptionPane.showMessageDialog(this, "Bạn phải chọn 1 dòng để sửa!");
             return;
         }
 
-        String idHDCT = tb_giohang2.getValueAt(rowGH, 0).toString();
+        String idSPCT = tb_giohang2.getValueAt(rowGH, 0).toString();
+        String idHDCT = hdcRepo.getIdHDCT(idHD, idSPCT);
         int sl_gh = Integer.parseInt(tb_giohang2.getValueAt(rowGH, 2).toString());
-        int sl_sp = hdcRepo.getSoLuongByIdCTSP(idHDCT);
+        int sl_sp = hdcRepo.getSoLuongByIdCTSP(idSPCT);
 
         String slNhap = JOptionPane.showInputDialog(this, "Nhập số lượng sản phẩm muốn mua:");
 
@@ -1769,7 +1772,7 @@ public class Form_BanHang extends javax.swing.JPanel {
         Double giaBan = null;
         for (int i = 0; i < tb_HdSp2.getRowCount(); i++) {
             String id_ctsp = tb_HdSp2.getValueAt(i, 0).toString();
-            if (id_ctsp.equals(idHDCT)) {
+            if (id_ctsp.equals(idSPCT)) {
                 giaBan = Double.parseDouble(tb_HdSp2.getValueAt(i, 3).toString()); // Lấy giá trị từ cột thứ ba (chỉ số 2)
                 break;
             }
@@ -1810,34 +1813,16 @@ public class Form_BanHang extends javax.swing.JPanel {
 
 // Lấy kết quả khi hộp thoại đóng lại
         int result = (int) optionPane.getValue();
+
+// Xử lý kết quả
+        // ... [phần mã hiện tại của bạn] ...
         if (result == JOptionPane.YES_OPTION) {
-            // Lấy số lượng hiện tại của sản phẩm trong kho và trong giỏ hàng
-            int slKhoHienTai = hdcRepo.getSoLuongByIdCTSP(idHDCT);
-            System.out.println("Số lượng kho hiện tại: " + slKhoHienTai);
-
-            // Tính toán số lượng mới trong giỏ hàng và trong kho
-            int slChenhLech = sl_gh - sl;
-            int slGioHangMoi = sl;
-            int slKhoMoi = slKhoHienTai + slChenhLech;
-
-            System.out.println("Số lượng chênh lệch: " + slChenhLech);
-            System.out.println("Số lượng giỏ hàng mới: " + slGioHangMoi);
-            System.out.println("Số lượng kho mới: " + slKhoMoi);
-
-            // Cập nhật số lượng mới trong kho
-            if (slKhoMoi < 0) {
-                JOptionPane.showMessageDialog(this, "Số lượng trong kho không đủ để cập nhật!");
-                return;
-            }
-
-            // Cập nhật bảng giỏ hàng
-            tb_giohang2.setValueAt(slGioHangMoi, rowGH, 2); // Cập nhật số lượng mới trong bảng giỏ hàng
-            tb_giohang2.setValueAt(thanhTien, rowGH, 9); // Cập nhật thành tiền mới trong bảng giỏ hàng
-
-            // Cập nhật bảng kho và giỏ hàng trên giao diện người dùng
+            hdcRepo.updateSoLuongChiTietHoaDonbyId(sl, giaBan, idHDCT);
+            hdcRepo.updateSoLuongChiTietSanPham(sl_gh - sl + sl_sp, idSPCT);
             fillTableGioHang();
-            loadtable(listspct);
-            updateThanhTienGUI(thanhTien);
+            JOptionPane.showMessageDialog(this, "Đã cập nhật số lượng!");
+            loadtable(listspct); // Phương thức này hiện tại có thể chỉ làm mới giỏ hàng
+
         }
 
 
