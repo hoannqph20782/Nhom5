@@ -22,4 +22,5 @@ public interface NSXImpl {
     public NSX getIDByName(String nsx);
 
     public void updateTrangThai(String idNSX);
+    public boolean insertCrud(NSX nsx);
 }

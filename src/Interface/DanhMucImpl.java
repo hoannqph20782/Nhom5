@@ -21,4 +21,5 @@ public interface DanhMucImpl {
     public DanhMuc getIDByName(String danhMuc);
     
     public void updateTrangThai(String idDanhMuc);
+    
 }

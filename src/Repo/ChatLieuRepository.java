@@ -83,6 +83,21 @@ public class ChatLieuRepository {
             return false;
         }
     }
+    public boolean insertChatLieuCrud(ChatLieu chatLieu) {
+        try (Connection connection = dbConnext.getConnection()) {
+            String sql = "INSERT INTO CHATLIEU (Ma, Ten,TrangThai) VALUES (?,?,?)";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+                preparedStatement.setString(1, generateUniqueCode());
+                preparedStatement.setString(2, chatLieu.getTen());
+                preparedStatement.setInt(3, chatLieu.getTrangThai());
+                int rowsAffected = preparedStatement.executeUpdate();
+                return rowsAffected > 0;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ChatLieuRepository.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
 
     private String generateUniqueCode() {
         String randomCode = String.valueOf((int) (Math.random() * 10000));

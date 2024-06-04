@@ -41,4 +41,9 @@ public class DeService implements DeImpl {
     public void updateTrangThai(String idDe) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+    @Override
+    public boolean insertCrud(De cl) {
+        return deRepository.insertDeCrud(cl);
+    }
 }

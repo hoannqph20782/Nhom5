@@ -30,4 +30,5 @@ public interface SanPhamChiTietImpl {
     public List<String> getNSX();
 
     public List<String> getDe();
+    
 }

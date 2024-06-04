@@ -61,4 +61,11 @@ public class MauSacService implements MauSacImpl {
         return mauSacRepositorys.updateMauSacFull(mauSac);
     }
 
+    @Override
+    public boolean insertMauSacCrud(MauSac ms) {
+        return mauSacRepositorys.insertMauSaccrud(ms);
+    }
+
+    
+
 }

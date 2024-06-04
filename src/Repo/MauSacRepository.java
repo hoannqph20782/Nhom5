@@ -71,11 +71,27 @@ public class MauSacRepository {
 
     public boolean insertMauSac(MauSac mauSac) {
         try ( Connection connection = dBConnection.getConnection()) {
-            String sql = "insert into MAUSAC (Ma , MauSac) values (?,?)";
+            String sql = "insert into MAUSAC (Ma , MauSac, ) values (?,?,)";
             try ( PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setString(1, generateUniqueCode());
                 preparedStatement.setString(2, mauSac.getMauSac());
 
+                int rowsAffected = preparedStatement.executeUpdate();
+                return rowsAffected > 0;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(MauSacRepository.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
+    public boolean insertMauSaccrud(MauSac mauSac) {
+        try ( Connection connection = dBConnection.getConnection()) {
+            String sql = "insert into MAUSAC (Ma , MauSac , TrangThai ) values (?,?,?)";
+            try ( PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, generateUniqueCode());
+                preparedStatement.setString(2, mauSac.getMauSac());
+                preparedStatement.setInt(3, mauSac.getTrangThai());
                 int rowsAffected = preparedStatement.executeUpdate();
                 return rowsAffected > 0;
             }

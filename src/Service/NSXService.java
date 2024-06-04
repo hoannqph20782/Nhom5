@@ -41,4 +41,9 @@ public class NSXService implements NSXImpl {
     public void updateTrangThai(String idNSX) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+    @Override
+    public boolean insertCrud(NSX nsx) {
+      return nSXRepository.addNhaSanXuatCrud(nsx);
+    }
 }
