@@ -1088,7 +1088,7 @@
                         <Column editable="false" title="M&#xe0;u S&#x1eaf;c" type="java.lang.Object"/>
                         <Column editable="false" title="H&#xe3;ng" type="java.lang.Object"/>
                         <Column editable="false" title="Size" type="java.lang.Object"/>
-                        <Column editable="false" title="&#x110;&#x1a1;n Gi&#xe1;" type="java.lang.Object"/>
+                        <Column editable="true" title="&#x110;&#x1a1;n Gi&#xe1;" type="java.lang.Object"/>
                         <Column editable="true" title="Tr&#x1ea1;ng Th&#xe1;i" type="java.lang.Object"/>
                         <Column editable="true" title="Th&#xe0;nh Ti&#x1ec1;n" type="java.lang.Object"/>
                       </Table>
@@ -1130,7 +1130,7 @@
                           <Editor/>
                           <Renderer/>
                         </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                           <Title/>
                           <Editor/>
                           <Renderer/>

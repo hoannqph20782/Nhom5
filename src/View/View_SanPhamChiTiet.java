@@ -5,6 +5,8 @@
 package View;
 
 import Model.ChiTietGiay;
+import Model.KhachHang;
+import Repo.SanPhamChiTietRepository;
 import Service.SanPhamChiTietService;
 import Service.SanPhamService;
 import java.awt.Window;
@@ -30,6 +32,7 @@ public class View_SanPhamChiTiet extends javax.swing.JPanel {
     List<String> listSize;
     List<String> listDe;
     List<String> listNsx;
+    ChiTietGiay ctg = new ChiTietGiay();
 
     public View_SanPhamChiTiet() {
         initComponents();
@@ -53,11 +56,8 @@ public class View_SanPhamChiTiet extends javax.swing.JPanel {
                 chitietgiay.getGiaBan(),
                 chitietgiay.getMota(),
                 chitietgiay.getTrangThai() == 1 ? "Hoat Dong" : "Khong Hoat Dong"
-
             };
-            model.addRow(data);
         }
-        listspct = ctg;
     }
 
     public void fillCboChiTiet() {
@@ -806,7 +806,7 @@ public class View_SanPhamChiTiet extends javax.swing.JPanel {
     }//GEN-LAST:event_lbChatLieu4MouseClicked
 
     private void ButtonDanhMucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonDanhMucActionPerformed
-try {
+        try {
             Form_DanhMuc FormDanhMuc = new Form_DanhMuc();
             FormDanhMuc.setVisible(true);
         } catch (Exception e) {
@@ -833,7 +833,7 @@ try {
     }//GEN-LAST:event_ButtonMauSacMouseClicked
 
     private void ButtonSizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonSizeActionPerformed
-      try {
+        try {
             Form_Size size = new Form_Size();
             size.setVisible(true);
         } catch (Exception e) {
@@ -851,7 +851,7 @@ try {
     }//GEN-LAST:event_ButtonDEActionPerformed
 
     private void ButtonChatLieuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonChatLieuActionPerformed
-         try {
+        try {
             Form_ChatLieu formCl = new Form_ChatLieu();
             formCl.setVisible(true);
         } catch (Exception e) {
@@ -860,7 +860,7 @@ try {
     }//GEN-LAST:event_ButtonChatLieuActionPerformed
 
     private void ButtonNSXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonNSXActionPerformed
-         try {
+        try {
             Form_NSX formNSX = new Form_NSX();
             formNSX.setVisible(true);
         } catch (Exception e) {

@@ -45,7 +45,7 @@ public class SanPhamChiTietRepository {
                 + "FROM dbo.CHITIETGIAY\n"
                 + "INNER JOIN dbo.SanPham ON dbo.CHITIETGIAY.IdSanPham = dbo.SanPham.Id\n"
                 + "INNER JOIN dbo.DANHMUC ON dbo.CHITIETGIAY.IdDanhMuc = dbo.DANHMUC.Id;";
-        try ( Connection con = dBConnext.getConnection();  PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = dBConnext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 // Tạo đối tượng ChiTietGiay và thêm vào danh sách
@@ -96,7 +96,7 @@ public class SanPhamChiTietRepository {
                 + "                INNER JOIN dbo.ChatLieu ON dbo.CHITIETGIAY.IdChatLieu = dbo.ChatLieu.Id\n"
                 + "                INNER JOIN dbo.NSX ON dbo.CHITIETGIAY.[IdNSX] = dbo.NSX.Id\n"
                 + "                INNER JOIN dbo.DE ON dbo.CHITIETGIAY.[IdDe] = dbo.De.Id;";
-        try ( Connection con = dBConnext.getConnection();  PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = dBConnext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 // Tạo đối tượng ChiTietGiay và thêm vào danh sách
@@ -148,7 +148,7 @@ public class SanPhamChiTietRepository {
     public List<String> getDanhMuc() {
         List<String> lstDanhMuc = new ArrayList<>();
         String sql = "select * from DANHMUC where TrangThai = 1";
-        try ( Connection conn = dBConnext.getConnection()) {
+        try (Connection conn = dBConnext.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -164,7 +164,7 @@ public class SanPhamChiTietRepository {
     public List<String> getSanPham() {
         List<String> lstDanhMuc = new ArrayList<>();
         String sql = "select * from SANPHAM where TrangThai = 1";
-        try ( Connection conn = dBConnext.getConnection()) {
+        try (Connection conn = dBConnext.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -180,7 +180,7 @@ public class SanPhamChiTietRepository {
     public List<String> getChatLieu() {
         List<String> lstDanhMuc = new ArrayList<>();
         String sql = "select * from CHATLIEU where TrangThai = 1";
-        try ( Connection conn = dBConnext.getConnection()) {
+        try (Connection conn = dBConnext.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -196,7 +196,7 @@ public class SanPhamChiTietRepository {
     public List<String> getMauSac() {
         List<String> lstDanhMuc = new ArrayList<>();
         String sql = "select * from MAUSAC where TrangThai = 1";
-        try ( Connection conn = dBConnext.getConnection()) {
+        try (Connection conn = dBConnext.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -212,7 +212,7 @@ public class SanPhamChiTietRepository {
     public List<String> getSize() {
         List<String> lstDanhMuc = new ArrayList<>();
         String sql = "select * from SIZE where TrangThai = 1";
-        try ( Connection conn = dBConnext.getConnection()) {
+        try (Connection conn = dBConnext.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -228,7 +228,7 @@ public class SanPhamChiTietRepository {
     public List<String> getNSX() {
         List<String> lstDanhMuc = new ArrayList<>();
         String sql = "select * from NSX where TrangThai = 1";
-        try ( Connection conn = dBConnext.getConnection()) {
+        try (Connection conn = dBConnext.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -244,7 +244,7 @@ public class SanPhamChiTietRepository {
     public List<String> getDe() {
         List<String> lstDanhMuc = new ArrayList<>();
         String sql = "select * from DE where TrangThai = 1";
-        try ( Connection conn = dBConnext.getConnection()) {
+        try (Connection conn = dBConnext.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -300,7 +300,7 @@ public class SanPhamChiTietRepository {
     public boolean addChiTietSanPham(ChiTietGiay ctg) {
         String sql = "insert into CHITIETGIAY (IdSanPham,IdDanhMuc,GiaBan,MoTa,HinhAnh,TrangThai) values \n"
                 + " (?,?,?,?,?,?)";
-        try ( Connection con = DBConnext.getConnection();  PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = DBConnext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setObject(1, ctg.getIdSanPham().getIdSanPham());
             ps.setObject(2, ctg.getIdDanhMuc().getId());
             ps.setObject(3, ctg.getGiaBan());
@@ -317,7 +317,7 @@ public class SanPhamChiTietRepository {
 
     public boolean updateChiTietSanPham(ChiTietGiay ctg) {
         String sql = "UPDATE CHITIETGIAY SET IdDanhMuc = ? , IdSanPham = ? ,GiaBan = ? ,MoTa = ? ,TrangThai = ?, HinhAnh = ? where Id = ?";
-        try ( Connection con = dBConnext.getConnection()) {
+        try (Connection con = dBConnext.getConnection()) {
             CallableStatement ps = con.prepareCall(sql);
 
             ps.setObject(1, ctg.getIdDanhMuc().getId());
@@ -340,7 +340,7 @@ public class SanPhamChiTietRepository {
         String sql = "SELECT * FROM CHITIETGIAY ctg "
                 + "JOIN DanhMuc dm ON ctg.IdDanhMuc = dm.Id "
                 + "WHERE dm.Ten LIKE ? AND (? IS NULL OR ctg.giaBan = ?)";
-        try ( Connection connection = dBConnext.getConnection();  PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        try (Connection connection = dBConnext.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             preparedStatement.setString(1, "%" + keyword + "%"); // Use wildcard for LIKE
             if (giaB == null) {
@@ -351,7 +351,7 @@ public class SanPhamChiTietRepository {
                 preparedStatement.setFloat(3, giaB);
             }
 
-            try ( ResultSet rs = preparedStatement.executeQuery()) {
+            try (ResultSet rs = preparedStatement.executeQuery()) {
                 while (rs.next()) {
                     DanhMuc dm = dmr.getDanhMucByID(rs.getString("IdDanhMuc"));
                     SanPham sp = spr.getSanPhamByID(rs.getString("IdSanPham"));
@@ -380,6 +380,75 @@ public class SanPhamChiTietRepository {
         }
         return ctgList;
     }
+    public ArrayList<ChiTietGiay> getDSSPCT(int idSanPham) {
+        ArrayList<ChiTietGiay> listctg = new ArrayList<>();
+        String sql = "	SELECT dbo.CHITIETGIAY.Id,\n"
+                + "              dbo.SANPHAM.Ten,\n"
+                + "                dbo.DANHMUC.Ten as TenDM,\n"
+                + "                dbo.Size.KichCo,\n"
+                + "                 dbo.MAUSAC.MauSac,\n"
+                + "                dbo.CHATLIEU.Ten as TenCL, \n"
+                + "                dbo.NSX.Ten as TenNSX,\n"
+                + "                 dbo.DE.Ten as TenDE,\n"
+                + "                 dbo.CHITIETGIAY.SoLuong,\n"
+                + "                 dbo.CHITIETGIAY.GiaBan,\n"
+                + "                 dbo.CHITIETGIAY.Mota,\n"
+                + "                 dbo.CHITIETGIAY.TrangThai\n"
+                + "                FROM dbo.CHITIETGIAY\n"
+                + "                INNER JOIN dbo.SanPham ON dbo.CHITIETGIAY.IdSanPham = dbo.SanPham.Id\n"
+                + "                INNER JOIN dbo.DANHMUC ON dbo.CHITIETGIAY.IdDanhMuc = dbo.DANHMUC.Id\n"
+                + "                INNER JOIN dbo.Size  ON dbo.CHITIETGIAY.IdSize = dbo.Size.Id\n"
+                + "                INNER JOIN dbo.MauSac ON dbo.CHITIETGIAY.[IdMauSac] = dbo.MauSac.Id\n"
+                + "                INNER JOIN dbo.ChatLieu ON dbo.CHITIETGIAY.IdChatLieu = dbo.ChatLieu.Id\n"
+                + "                INNER JOIN dbo.NSX ON dbo.CHITIETGIAY.[IdNSX] = dbo.NSX.Id\n"
+                + "                INNER JOIN dbo.DE ON dbo.CHITIETGIAY.[IdDe] = dbo.De.Id WHERE dbo.CHITIETGIAY.IdSanPham = ? ;";
+        try (Connection con = dBConnext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, idSanPham);  // Set the idSanPham parameter in the query
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                // Tạo đối tượng ChiTietGiay và thêm vào danh sách
+                ChiTietGiay ctg = new ChiTietGiay();
+                ctg.setId(rs.getInt("Id"));
+                ctg.setGiaBan(rs.getBigDecimal("GiaBan"));
+                ctg.setMota(rs.getString("MoTa"));
+                ctg.setTrangThai(rs.getInt("TrangThai"));
 
+                ctg.setSoLuong(rs.getInt("SoLuong"));
+                // Tạo đối tượng SanPham và thêm vào ChiTietGiay
+                SanPham sp = new SanPham();
 
+                sp.setTen(rs.getString("Ten"));
+                ctg.setIdSanPham(sp);
+                // Tạo đối tượng DanhMuc và thêm vào ChiTietGiay
+                DanhMuc dm = new DanhMuc();
+                dm.setTen(rs.getString("TenDM"));
+                ctg.setIdDanhMuc(dm);
+
+                SIZE sz = new SIZE();
+                sz.setKichCo(rs.getInt("KichCo"));
+                ctg.setIdSize(sz);
+
+                MauSac ms = new MauSac();
+                ms.setMauSac(rs.getString("MauSac"));
+                ctg.setIdMauSac(ms);
+
+                ChatLieu cl = new ChatLieu();
+                cl.setTen(rs.getString("TenCL"));
+                ctg.setIdChatLieu(cl);
+
+                NSX nsx = new NSX();
+                nsx.setTen(rs.getString("TenNSX"));
+                ctg.setIdNSX(nsx);
+
+                De de = new De();
+                de.setTen(rs.getString("TenDE"));
+                ctg.setIdDe(de);
+
+                listctg.add(ctg);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listctg;
+    }
 }
